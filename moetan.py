@@ -24,6 +24,8 @@ if "twitter" in config:
         return "I sent it!"
     HANDLERS.append((r"^tweet (?P<text>.+)$", tweet))
 
+HANDLERS.append((r"^shrug", lambda: "¯\_(ツ)_/¯"))
+
 HANDLERS = [(re.compile(x[0]),x[1]) for x in HANDLERS]
 
 class Question(Gtk.Window):
