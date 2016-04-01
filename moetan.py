@@ -2,7 +2,7 @@
 # encoding: utf-8
 import random, re, gi, pyowm, tweepy, arrow, configparser, os
 gi.require_version('Gtk','3.0')
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, Pango
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), "moetan.ini"))
 HANDLERS = []
@@ -37,9 +37,11 @@ class Question(Gtk.Window):
         self.header.set_has_subtitle(True)
         self.header.set_show_close_button(True)
         self.header.set_title("MOE-tan")
+        self.header.modify_font(Pango.font_description_from_string("Lato 14"))
         self.header.set_subtitle("What do you need, senpai? "+random.choice(["(´• ω •`)","(*^‿^*)","(-‿‿-)"]))
         self.set_titlebar(self.header)
         self.entry = Gtk.Entry()
+        self.entry.modify_font(Pango.font_description_from_string("Lato 27"))
         self.entry.connect("key-release-event", self.on_key_release)
         self.add(self.entry)
         self.entry.grab_focus()
@@ -55,11 +57,13 @@ class Question(Gtk.Window):
                 if m:
                     dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, "I've found the answer, senpai!!!")
                     dialog.format_secondary_text(h[1](**m.groupdict()))
+                    dialog.modify_font(Pango.font_description_from_string("Lato 27"))
                     dialog.run()
                     dialog.destroy()
                     Gtk.main_quit()
                     return
             dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK, "I didn't understand you, senpai!!!")
+            dialog.modify_font(Pango.font_description_from_string("Lato 27"))
             dialog.run()
             dialog.destroy()
             self.entry.set_editable(True)
